@@ -16,7 +16,8 @@ public class Klass {
     }
 
     public String getDisplayName() {
-        return "Class " + number;
+        displayName = "Class "+number;
+        return this.displayName = displayName;
     }
 
     public Student getLeader() {
