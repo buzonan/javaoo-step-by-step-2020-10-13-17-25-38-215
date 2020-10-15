@@ -4,7 +4,6 @@ import practice11.Klass;
 
 public class Student extends Person{
     private Klass klass;
-    private boolean isLeader;
 
     public Student(int id, String name, int age) {
         super(id, name, age);
