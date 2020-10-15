@@ -4,6 +4,7 @@ import practice11.Klass;
 
 public class Student extends Person{
     private Klass klass;
+    private boolean isLeader;
 
     public Student(int id, String name, int age) {
         super(id, name, age);
@@ -15,16 +16,22 @@ public class Student extends Person{
     }
 
     public String introduce(){
-        if(klass.getLeader() != null){
-            if(klass.getLeader().getName().equals(getName())){
-                return super.introduce() + " I am a Student. I am Leader of " + klass.getDisplayName()+".";
-            }
+        if(isLeader()) {
+            return super.introduce() + " I am a Student. I am Leader of " + klass.getDisplayName()+".";
         }
         return super.introduce() + " I am a Student. I am at " + klass.getDisplayName()+".";
     }
 
     public Klass getKlass() {
         return klass;
+    }
+
+    public boolean isLeader(){
+        try{
+            return klass.getLeader().getName().equals(getName());
+        }catch (NullPointerException e){
+            return false;
+        }
     }
 
 }
