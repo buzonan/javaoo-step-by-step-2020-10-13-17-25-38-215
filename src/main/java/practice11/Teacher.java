@@ -25,24 +25,17 @@ public class Teacher extends Person{
     }
 
     public String introduce(){
-        if(classes == null){
-            return super.introduce() + " I am a Teacher. I teach No Class.";
-        }
 
-        if(getClasses().size() != 0){
-            String classes = getClasses().stream().map(Klass::getNumber).map(String::valueOf).collect(Collectors.joining(", "));
-            return super.introduce() + " I am a Teacher. I teach Class "+ classes+".";
+        if(validateClass()){
+            String classNumbers = getClasses().stream().map(Klass::getNumber).map(String::valueOf).collect(Collectors.joining(", "));
+            return super.introduce() + " I am a Teacher. I teach Class "+ classNumbers+".";
         }
-
         return super.introduce() + " I am a Teacher. I teach No Class.";
     }
 
     public String introduceWith(Student student) {
-        boolean isClassIncluded = getClasses().stream()
-                .map(Klass::getNumber)
-                .anyMatch(classNum->classNum.equals(student.getKlass().getNumber()));
 
-        if(isClassIncluded){
+        if(isTeaching(student)){
             return super.introduce() + " I am a Teacher. I teach "+student.getName()+".";
         }
         return super.introduce() + " I am a Teacher. I don't teach "+student.getName()+".";
@@ -53,13 +46,19 @@ public class Teacher extends Person{
                 .map(Klass::getNumber)
                 .anyMatch(classNum->classNum.equals(student.getKlass().getNumber()));
 
-        if(isClassIncluded){
-            return true;
-        }
-        return false;
+        return isClassIncluded;
     }
 
     public List<Klass> getClasses() {
         return classes;
+    }
+
+    public boolean validateClass(){
+        try{
+            return getClasses().size() != 0 && classes !=null;
+        }
+        catch (NullPointerException e){
+            return false;
+        }
     }
 }
